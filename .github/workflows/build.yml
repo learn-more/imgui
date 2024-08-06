@@ -160,6 +160,11 @@ jobs:
         run: '"%MSBUILD_PATH%\MSBuild.exe" examples/example_win32_directx11/example_win32_directx11.vcxproj /p:Platform=Win32 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
+      - name: Build Win32 example_win32_opengl3
+        shell: cmd
+        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/example_win32_opengl3/example_win32_opengl3.vcxproj /p:Platform=Win32 /p:Configuration=Release'
+        if: github.event_name == 'workflow_run'
+
       - name: Build x64 example_glfw_opengl2
         shell: cmd
         run: '"%MSBUILD_PATH%\MSBuild.exe" examples/example_glfw_opengl2/example_glfw_opengl2.vcxproj /p:Platform=x64 /p:Configuration=Release'
@@ -210,6 +215,11 @@ jobs:
       - name: Build x64 example_win32_directx11
         shell: cmd
         run: '"%MSBUILD_PATH%\MSBuild.exe" examples/example_win32_directx11/example_win32_directx11.vcxproj /p:Platform=x64 /p:Configuration=Release'
+        if: github.event_name == 'workflow_run'
+
+      - name: Build x64 example_win32_opengl3
+        shell: cmd
+        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/example_win32_opengl3/example_win32_opengl3.vcxproj /p:Platform=x64 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build x64 example_win32_directx12
