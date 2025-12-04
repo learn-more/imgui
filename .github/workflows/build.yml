@@ -25,9 +25,6 @@ jobs:
       run:
         working-directory: ${{ github.workspace }}/imgui
 
-    env:
-      VS_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\
-      MSBUILD_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\
     steps:
       - uses: actions/checkout@v5
         with:
@@ -46,9 +43,14 @@ jobs:
           Expand-Archive -Path vulkan_windows_libs_1.4.326.zip
           echo "VULKAN_SDK=$(pwd)\vulkan_windows_libs_1.4.326\" >>${env:GITHUB_ENV}
 
-      - uses: abel0b/setup-premake@v2.4
+      - name: Add premake5 to PATH
+        uses: abel0b/setup-premake@v2.4
         with:
           version: "5.0.0-beta7"
+
+      - name: Add MSBuild to PATH
+        if: ${{ inputs.premake_action == 'vs2022' }}
+        uses: microsoft/setup-msbuild@v2
 
       - name: Generate Visual Studio solution and project files
         shell: cmd
@@ -59,106 +61,106 @@ jobs:
       # More of the Win32 examples requires 'workflow_run' to reduce waste.
       - name: Build Win32 example_glfw_opengl2
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_glfw_opengl2.vcxproj /p:Platform=Win32 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_glfw_opengl2.vcxproj /p:Platform=Win32 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win32 example_glfw_opengl3
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_glfw_opengl3.vcxproj /p:Platform=Win32 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_glfw_opengl3.vcxproj /p:Platform=Win32 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win32 example_glfw_vulkan
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_glfw_vulkan.vcxproj /p:Platform=Win32 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_glfw_vulkan.vcxproj /p:Platform=Win32 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win32 example_sdl2_sdlrenderer2
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_sdl2_sdlrenderer2.vcxproj /p:Platform=Win32 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_sdl2_sdlrenderer2.vcxproj /p:Platform=Win32 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win32 example_sdl2_vulkan
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_sdl2_vulkan.vcxproj /p:Platform=Win32 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_sdl2_vulkan.vcxproj /p:Platform=Win32 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win32 example_sdl2_opengl2
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_sdl2_opengl2.vcxproj /p:Platform=Win32 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_sdl2_opengl2.vcxproj /p:Platform=Win32 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win32 example_sdl2_opengl3
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_sdl2_opengl3.vcxproj /p:Platform=Win32 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_sdl2_opengl3.vcxproj /p:Platform=Win32 /p:Configuration=Release'
 
       - name: Build Win32 example_win32_directx9
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_win32_directx9.vcxproj /p:Platform=Win32 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_win32_directx9.vcxproj /p:Platform=Win32 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win32 example_win32_directx10
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_win32_directx10.vcxproj /p:Platform=Win32 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_win32_directx10.vcxproj /p:Platform=Win32 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win32 example_win32_directx11
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_win32_directx11.vcxproj /p:Platform=Win32 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_win32_directx11.vcxproj /p:Platform=Win32 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win32 example_win32_directx12
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_win32_directx12.vcxproj /p:Platform=Win32 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_win32_directx12.vcxproj /p:Platform=Win32 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       # Windows 64-bits
       - name: Build Win64 example_glfw_opengl2
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_glfw_opengl2.vcxproj /p:Platform=x64 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_glfw_opengl2.vcxproj /p:Platform=x64 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win64 example_glfw_opengl3
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_glfw_opengl3.vcxproj /p:Platform=x64 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_glfw_opengl3.vcxproj /p:Platform=x64 /p:Configuration=Release'
 
       - name: Build Win64 example_glfw_vulkan
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_glfw_vulkan.vcxproj /p:Platform=x64 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_glfw_vulkan.vcxproj /p:Platform=x64 /p:Configuration=Release'
 
       - name: Build Win64 example_sdl2_sdlrenderer2
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_sdl2_sdlrenderer2.vcxproj /p:Platform=x64 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_sdl2_sdlrenderer2.vcxproj /p:Platform=x64 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win64 example_sdl2_vulkan
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_sdl2_vulkan.vcxproj /p:Platform=x64 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_sdl2_vulkan.vcxproj /p:Platform=x64 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win64 example_sdl2_opengl2
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_sdl2_opengl2.vcxproj /p:Platform=x64 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_sdl2_opengl2.vcxproj /p:Platform=x64 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win64 example_sdl2_opengl3
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_sdl2_opengl3.vcxproj /p:Platform=x64 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_sdl2_opengl3.vcxproj /p:Platform=x64 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win64 example_win32_directx9
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_win32_directx9.vcxproj /p:Platform=x64 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_win32_directx9.vcxproj /p:Platform=x64 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win64 example_win32_directx10
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_win32_directx10.vcxproj /p:Platform=x64 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_win32_directx10.vcxproj /p:Platform=x64 /p:Configuration=Release'
         if: github.event_name == 'workflow_run'
 
       - name: Build Win64 example_win32_directx11
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_win32_directx11.vcxproj /p:Platform=x64 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_win32_directx11.vcxproj /p:Platform=x64 /p:Configuration=Release'
 
       - name: Build Win64 example_win32_directx12
         shell: cmd
-        run: '"%MSBUILD_PATH%\MSBuild.exe" examples/build/example_win32_directx12.vcxproj /p:Platform=x64 /p:Configuration=Release'
+        run: 'msbuild /m examples/build/example_win32_directx12.vcxproj /p:Platform=x64 /p:Configuration=Release'
