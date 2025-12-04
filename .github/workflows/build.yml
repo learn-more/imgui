@@ -49,7 +49,6 @@ jobs:
           version: "5.0.0-beta7"
 
       - name: Add MSBuild to PATH
-        if: ${{ inputs.premake_action == 'vs2022' }}
         uses: microsoft/setup-msbuild@v2
 
       - name: Generate Visual Studio solution and project files
