@@ -53,7 +53,7 @@ jobs:
       - name: Generate Visual Studio solution and project files
         shell: cmd
         run: premake5 vs2022
-        working-directory: ${{ github.workspace }}/examples
+        working-directory: ${{ github.workspace }}/imgui/examples
 
       # Win64 examples are more frequently compiled than the Win32 examples.
       # More of the Win32 examples requires 'workflow_run' to reduce waste.
